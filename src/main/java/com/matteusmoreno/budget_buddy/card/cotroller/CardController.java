@@ -4,7 +4,6 @@ import com.matteusmoreno.budget_buddy.card.entity.Card;
 import com.matteusmoreno.budget_buddy.card.request.CreateCardRequest;
 import com.matteusmoreno.budget_buddy.card.response.CardDetailsResponse;
 import com.matteusmoreno.budget_buddy.card.service.CardService;
-import com.matteusmoreno.budget_buddy.customer.entity.Customer;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

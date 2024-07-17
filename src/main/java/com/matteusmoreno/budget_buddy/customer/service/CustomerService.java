@@ -9,6 +9,7 @@ import com.matteusmoreno.budget_buddy.customer.request.CreateCustomerRequest;
 import com.matteusmoreno.budget_buddy.customer.request.UpdateCustomerRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +21,13 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final AddressService addressService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository, AddressService addressService) {
+    public CustomerService(CustomerRepository customerRepository, AddressService addressService, BCryptPasswordEncoder passwordEncoder) {
         this.customerRepository = customerRepository;
         this.addressService = addressService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -36,6 +39,7 @@ public class CustomerService {
 
         customer.setAddress(address);
         customer.setActive(true);
+        customer.setPassword(passwordEncoder.encode(request.password()));
 
         customerRepository.save(customer);
 
@@ -54,7 +58,7 @@ public class CustomerService {
             customer.setUsername(request.username());
         }
         if (request.password() != null) {
-            customer.setPassword(request.password());
+            customer.setPassword(passwordEncoder.encode(request.password()));
         }
         if (request.name() != null) {
             customer.setName(request.name());
