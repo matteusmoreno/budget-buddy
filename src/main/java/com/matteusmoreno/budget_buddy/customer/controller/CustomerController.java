@@ -2,6 +2,7 @@ package com.matteusmoreno.budget_buddy.customer.controller;
 
 import com.matteusmoreno.budget_buddy.customer.entity.Customer;
 import com.matteusmoreno.budget_buddy.customer.request.CreateCustomerRequest;
+import com.matteusmoreno.budget_buddy.customer.request.UpdateCustomerRequest;
 import com.matteusmoreno.budget_buddy.customer.response.CustomerDetailsResponse;
 import com.matteusmoreno.budget_buddy.customer.service.CustomerService;
 import jakarta.validation.Valid;
@@ -35,6 +36,13 @@ public class CustomerController {
     @GetMapping("/{id}")
     public ResponseEntity<CustomerDetailsResponse> getCustomerById(@PathVariable UUID id) {
         Customer customer = customerService.getCustomerById(id);
+
+        return ResponseEntity.ok(new CustomerDetailsResponse(customer));
+    }
+
+    @PutMapping("/update")
+    private ResponseEntity<CustomerDetailsResponse> update(@RequestBody @Valid UpdateCustomerRequest request) {
+        Customer customer = customerService.updateCustomer(request);
 
         return ResponseEntity.ok(new CustomerDetailsResponse(customer));
     }
