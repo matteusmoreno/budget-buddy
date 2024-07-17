@@ -5,6 +5,7 @@ import com.matteusmoreno.budget_buddy.card.entity.Card;
 import com.matteusmoreno.budget_buddy.card.request.CreateCardRequest;
 import com.matteusmoreno.budget_buddy.customer.CustomerRepository;
 import com.matteusmoreno.budget_buddy.customer.entity.Customer;
+import com.matteusmoreno.budget_buddy.utils.AppUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,16 +18,18 @@ public class CardService {
 
     private final CardRepository cardRepository;
     private final CustomerRepository customerRepository;
+    private final AppUtils appUtils;
 
     @Autowired
-    public CardService(CardRepository cardRepository, CustomerRepository customerRepository) {
+    public CardService(CardRepository cardRepository, CustomerRepository customerRepository, AppUtils appUtils) {
         this.cardRepository = cardRepository;
         this.customerRepository = customerRepository;
+        this.appUtils = appUtils;
     }
 
     @Transactional
-    public Card createCard(CreateCardRequest request, UUID id) {
-        Customer customer = customerRepository.findById(id).orElseThrow();
+    public Card createCard(CreateCardRequest request) {
+        Customer customer = appUtils.getAuthenticatedUser();
 
         if (cardRepository.existsByNumber(request.number())) {
             Card card = cardRepository.findByNumber(request.number());
@@ -38,6 +41,8 @@ public class CardService {
         BeanUtils.copyProperties(request, card);
         card.setName(request.name().toUpperCase());
         card.setActive(true);
+
+        customer.getCards().add(card);
 
         cardRepository.save(card);
         customerRepository.save(customer);

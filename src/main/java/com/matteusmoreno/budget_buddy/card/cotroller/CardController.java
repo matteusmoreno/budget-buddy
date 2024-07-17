@@ -24,9 +24,9 @@ public class CardController {
         this.cardService = cardService;
     }
 
-    @PostMapping("/create/{id}")
-    public ResponseEntity<CardDetailsResponse> create(@RequestBody @Valid CreateCardRequest request, @PathVariable UUID id, UriComponentsBuilder uriBuilder) {
-        Card card = cardService.createCard(request, id);
+    @PostMapping("/create")
+    public ResponseEntity<CardDetailsResponse> create(@RequestBody @Valid CreateCardRequest request, UriComponentsBuilder uriBuilder) {
+        Card card = cardService.createCard(request);
         URI uri = uriBuilder.path("/cards/create/{id}").buildAndExpand(card.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new CardDetailsResponse(card));
