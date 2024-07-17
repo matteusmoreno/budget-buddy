@@ -4,8 +4,10 @@ import com.matteusmoreno.budget_buddy.address.entity.Address;
 import com.matteusmoreno.budget_buddy.customer.entity.Customer;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record CustomerDetailsResponse(
+        UUID id,
         String username,
         String password,
         String name,
@@ -19,7 +21,7 @@ public record CustomerDetailsResponse(
         Boolean active) {
 
     public CustomerDetailsResponse(Customer customer) {
-        this(customer.getUsername(), customer.getPassword(), customer.getName(), customer.getEmail(), customer.getPhone(),
+        this(customer.getId() ,customer.getUsername(), customer.getPassword(), customer.getName(), customer.getEmail(), customer.getPhone(),
                 customer.getCpf(), customer.getAddress(), customer.getCreatedAt(), customer.getUpdatedAt(), customer.getDeletedAt(),
                 customer.getActive());
     }

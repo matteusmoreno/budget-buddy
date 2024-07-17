@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 public class CustomerService {
 
@@ -35,5 +37,9 @@ public class CustomerService {
         customerRepository.save(customer);
 
         return customer;
+    }
+
+    public Customer getCustomerById(UUID id) {
+        return customerRepository.findById(id).orElseThrow();
     }
 }
