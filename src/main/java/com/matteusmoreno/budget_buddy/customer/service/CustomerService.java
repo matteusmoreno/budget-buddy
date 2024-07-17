@@ -7,8 +7,11 @@ import com.matteusmoreno.budget_buddy.customer.CustomerRepository;
 import com.matteusmoreno.budget_buddy.customer.entity.Customer;
 import com.matteusmoreno.budget_buddy.customer.request.CreateCustomerRequest;
 import com.matteusmoreno.budget_buddy.customer.request.UpdateCustomerRequest;
+import com.matteusmoreno.budget_buddy.utils.AppUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,12 +25,14 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final AddressService addressService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final AppUtils appUtils;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository, AddressService addressService, BCryptPasswordEncoder passwordEncoder) {
+    public CustomerService(CustomerRepository customerRepository, AddressService addressService, BCryptPasswordEncoder passwordEncoder, AppUtils appUtils) {
         this.customerRepository = customerRepository;
         this.addressService = addressService;
         this.passwordEncoder = passwordEncoder;
+        this.appUtils = appUtils;
     }
 
     @Transactional
@@ -47,12 +52,16 @@ public class CustomerService {
     }
 
     public Customer getCustomerById(UUID id) {
-        return customerRepository.findById(id).orElseThrow();
+        Customer customer = customerRepository.findById(id).orElseThrow();
+        appUtils.verifyAuthenticatedUser(customer);
+
+        return customer;
     }
 
     @Transactional
     public Customer updateCustomer(UpdateCustomerRequest request) {
         Customer customer = customerRepository.findById(request.id()).orElseThrow();
+        appUtils.verifyAuthenticatedUser(customer);
 
         if (request.username() != null) {
             customer.setUsername(request.username());
@@ -87,6 +96,7 @@ public class CustomerService {
     @Transactional
     public void disableCustomer(UUID id) {
         Customer customer = customerRepository.findById(id).orElseThrow();
+        appUtils.verifyAuthenticatedUser(customer);
 
         customer.setActive(false);
         customer.setDeletedAt(LocalDateTime.now());
@@ -97,6 +107,7 @@ public class CustomerService {
     @Transactional
     public Customer enableCustomer(UUID id) {
         Customer customer = customerRepository.findById(id).orElseThrow();
+        appUtils.verifyAuthenticatedUser(customer);
 
         customer.setActive(true);
         customer.setDeletedAt(null);
