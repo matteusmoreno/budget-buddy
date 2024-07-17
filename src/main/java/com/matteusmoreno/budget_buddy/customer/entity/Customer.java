@@ -1,6 +1,7 @@
 package com.matteusmoreno.budget_buddy.customer.entity;
 
 import com.matteusmoreno.budget_buddy.address.entity.Address;
+import com.matteusmoreno.budget_buddy.card.entity.Card;
 import com.matteusmoreno.budget_buddy.customer.constant.Country;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -32,6 +35,13 @@ public class Customer {
     private Address address;
     @Enumerated(EnumType.STRING)
     private Country country;
+
+    @ManyToMany
+    @JoinTable(name = "customer_cards",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "card_id"))
+    private List<Card> cards = new ArrayList<>();
+
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
