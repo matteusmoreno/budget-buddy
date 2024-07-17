@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -73,6 +74,28 @@ public class CustomerService {
         if (request.country() != null) {
             customer.setCountry(request.country());
         }
+
+        customerRepository.save(customer);
+
+        return customer;
+    }
+
+    @Transactional
+    public void disableCustomer(UUID id) {
+        Customer customer = customerRepository.findById(id).orElseThrow();
+
+        customer.setActive(false);
+        customer.setDeletedAt(LocalDateTime.now());
+
+        customerRepository.save(customer);
+    }
+
+    @Transactional
+    public Customer enableCustomer(UUID id) {
+        Customer customer = customerRepository.findById(id).orElseThrow();
+
+        customer.setActive(true);
+        customer.setDeletedAt(null);
 
         customerRepository.save(customer);
 

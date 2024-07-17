@@ -47,4 +47,18 @@ public class CustomerController {
         return ResponseEntity.ok(new CustomerDetailsResponse(customer));
     }
 
+    @DeleteMapping("/disable/{id}")
+    public ResponseEntity<Void> disable(@PathVariable UUID id) {
+        customerService.disableCustomer(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/enable/{id}")
+    public ResponseEntity<CustomerDetailsResponse> enable(@PathVariable UUID id) {
+        Customer customer = customerService.enableCustomer(id);
+
+        return ResponseEntity.ok(new CustomerDetailsResponse(customer));
+    }
+
 }
