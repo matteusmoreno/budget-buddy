@@ -20,20 +20,16 @@ public class Address {
     private Long id;
     private String zipcode;
     private String street;
-    private String number;
     private String neighborhood;
     private String city;
     private String state;
-    private String country;
 
-    public Address(ViaCepResponse viaCepResponse, String number,  String country) {
+    public Address(ViaCepResponse viaCepResponse) {
         this.zipcode = viaCepResponse.cep();
         this.street = viaCepResponse.logradouro();
-        this.number = number;
         this.neighborhood = viaCepResponse.bairro();
         this.city = viaCepResponse.localidade();
         this.state = viaCepResponse.uf();
-        this.country = country;
 
     }
 }

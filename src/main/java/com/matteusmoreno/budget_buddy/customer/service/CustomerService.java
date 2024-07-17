@@ -2,9 +2,11 @@ package com.matteusmoreno.budget_buddy.customer.service;
 
 import com.matteusmoreno.budget_buddy.address.AddressService;
 import com.matteusmoreno.budget_buddy.address.entity.Address;
+import com.matteusmoreno.budget_buddy.address.repository.AddressRepository;
 import com.matteusmoreno.budget_buddy.customer.CustomerRepository;
 import com.matteusmoreno.budget_buddy.customer.entity.Customer;
 import com.matteusmoreno.budget_buddy.customer.request.CreateCustomerRequest;
+import com.matteusmoreno.budget_buddy.customer.request.UpdateCustomerRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class CustomerService {
         Customer customer = new Customer();
         BeanUtils.copyProperties(request, customer);
 
-        Address address = addressService.setAddressAttributes(request.zipcode(), request.number(), request.country());
+        Address address = addressService.setAddressAttributes(request.zipcode());
 
         customer.setAddress(address);
         customer.setActive(true);
@@ -41,5 +43,39 @@ public class CustomerService {
 
     public Customer getCustomerById(UUID id) {
         return customerRepository.findById(id).orElseThrow();
+    }
+
+    @Transactional
+    public Customer updateCustomer(UpdateCustomerRequest request) {
+        Customer customer = customerRepository.findById(request.id()).orElseThrow();
+
+        if (request.username() != null) {
+            customer.setUsername(request.username());
+        }
+        if (request.password() != null) {
+            customer.setPassword(request.password());
+        }
+        if (request.name() != null) {
+            customer.setName(request.name());
+        }
+        if (request.email() != null) {
+            customer.setEmail(request.email());
+        }
+        if (request.phone() != null) {
+            customer.setPhone(request.phone());
+        }
+        if (request.cpf() != null) {
+            customer.setCpf(request.cpf());
+        }
+        if (request.zipcode() != null) {
+            customer.setAddress(addressService.setAddressAttributes(request.zipcode()));
+        }
+        if (request.country() != null) {
+            customer.setCountry(request.country());
+        }
+
+        customerRepository.save(customer);
+
+        return customer;
     }
 }

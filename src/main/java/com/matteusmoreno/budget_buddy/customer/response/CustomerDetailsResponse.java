@@ -15,6 +15,7 @@ public record CustomerDetailsResponse(
         String phone,
         String cpf,
         Address address,
+        String country,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
         LocalDateTime deletedAt,
@@ -22,7 +23,7 @@ public record CustomerDetailsResponse(
 
     public CustomerDetailsResponse(Customer customer) {
         this(customer.getId() ,customer.getUsername(), customer.getPassword(), customer.getName(), customer.getEmail(), customer.getPhone(),
-                customer.getCpf(), customer.getAddress(), customer.getCreatedAt(), customer.getUpdatedAt(), customer.getDeletedAt(),
+                customer.getCpf(), customer.getAddress(), customer.getCountry().getDisplayName(), customer.getCreatedAt(), customer.getUpdatedAt(), customer.getDeletedAt(),
                 customer.getActive());
     }
 }

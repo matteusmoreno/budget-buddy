@@ -1,6 +1,7 @@
 package com.matteusmoreno.budget_buddy.customer.entity;
 
 import com.matteusmoreno.budget_buddy.address.entity.Address;
+import com.matteusmoreno.budget_buddy.customer.constant.Country;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +30,8 @@ public class Customer {
     private String cpf;
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
+    @Enumerated(EnumType.STRING)
+    private Country country;
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp

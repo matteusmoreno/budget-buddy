@@ -21,13 +21,13 @@ public class AddressService {
     }
 
     @Transactional
-    public Address setAddressAttributes(String zipcode, String number, String country) {
-        if (addressRepository.existsByZipcodeAndNumber(zipcode, number)) {
-            return addressRepository.findByZipcodeAndNumber(zipcode, number);
+    public Address setAddressAttributes(String zipcode) {
+        if (addressRepository.existsByZipcode(zipcode)) {
+            return addressRepository.findByZipcode(zipcode);
         }
 
         ViaCepResponse viaCepResponse = viaCepClient.getAddressByZipcode(zipcode);
 
-        return new Address(viaCepResponse, number, country);
+        return new Address(viaCepResponse);
     }
 }
