@@ -1,5 +1,6 @@
 package com.matteusmoreno.budget_buddy.utils;
 
+import com.matteusmoreno.budget_buddy.card.entity.Card;
 import com.matteusmoreno.budget_buddy.customer.CustomerRepository;
 import com.matteusmoreno.budget_buddy.customer.entity.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,12 @@ public class AppUtils {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.getName().equals(customer.getUsername())) {
             throw new BadCredentialsException("You can't access");
+        }
+    }
+
+    public void verifyCustomerHasCard(Customer customer, Card card) {
+        if (!customer.getCards().contains(card)) {
+            throw new BadCredentialsException("You don't have permission to access this card");
         }
     }
 }

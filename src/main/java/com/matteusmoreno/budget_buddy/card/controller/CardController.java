@@ -46,4 +46,18 @@ public class CardController {
 
         return ResponseEntity.ok(new CardDetailsResponse(card));
     }
+
+    @DeleteMapping("/disable/{id}")
+    public ResponseEntity<Void> disable(@PathVariable Long id) {
+        cardService.disableCard(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/enable/{id}")
+    public ResponseEntity<CardDetailsResponse> enableCard(@PathVariable Long id) {
+        Card card = cardService.enableCard(id);
+
+        return ResponseEntity.ok(new CardDetailsResponse(card));
+    }
 }

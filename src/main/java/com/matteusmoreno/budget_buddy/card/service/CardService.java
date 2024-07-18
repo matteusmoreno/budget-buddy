@@ -9,14 +9,12 @@ import com.matteusmoreno.budget_buddy.customer.entity.Customer;
 import com.matteusmoreno.budget_buddy.utils.AppUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class CardService {
@@ -65,9 +63,8 @@ public class CardService {
         Customer customer = appUtils.getAuthenticatedUser();
         Card card = cardRepository.findById(request.id()).orElseThrow();
 
-        if (!customer.getCards().contains(card)) {
-            throw new BadCredentialsException("You don't have permission to update this card");
-        }
+        appUtils.verifyCustomerHasCard(customer, card);
+
         if (request.name() != null) {
             card.setName(request.name().toUpperCase());
         }
@@ -83,6 +80,34 @@ public class CardService {
         if (request.cardType() != null) {
             card.setCardType(request.cardType());
         }
+
+        cardRepository.save(card);
+
+        return card;
+    }
+
+    @Transactional
+    public void disableCard(Long id) {
+        Customer customer = appUtils.getAuthenticatedUser();
+        Card card = cardRepository.findById(id).orElseThrow();
+
+        appUtils.verifyCustomerHasCard(customer, card);
+
+        card.setActive(false);
+        card.setDeletedAt(LocalDateTime.now());
+        cardRepository.save(card);
+
+    }
+
+    @Transactional
+    public Card enableCard(Long id) {
+        Customer customer = appUtils.getAuthenticatedUser();
+        Card card = cardRepository.findById(id).orElseThrow();
+
+        appUtils.verifyCustomerHasCard(customer, card);
+
+        card.setActive(true);
+        card.setDeletedAt(null);
 
         cardRepository.save(card);
 
