@@ -12,6 +12,8 @@ public record CreateProductRequest(
         String description,
         @NotNull(message = "Price is required")
         BigDecimal price,
+        @NotNull(message = "Stock Quantity is required")
+        Integer stockQuantity,
         @NotBlank(message = "Image is required")
         String image) {
 }

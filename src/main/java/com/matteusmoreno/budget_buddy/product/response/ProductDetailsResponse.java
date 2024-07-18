@@ -10,6 +10,7 @@ public record ProductDetailsResponse(
         String name,
         String description,
         BigDecimal price,
+        Integer stockQuantity,
         String image,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
@@ -17,7 +18,7 @@ public record ProductDetailsResponse(
         Boolean active) {
 
     public ProductDetailsResponse(Product product) {
-        this(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getImage(),
-                product.getCreatedAt(), product.getUpdatedAt(), product.getDeletedAt(), product.getActive());
+        this(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getStockQuantity(),
+                product.getImage(), product.getCreatedAt(), product.getUpdatedAt(), product.getDeletedAt(), product.getActive());
     }
 }

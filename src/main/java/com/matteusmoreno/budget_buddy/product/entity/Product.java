@@ -23,6 +23,7 @@ public class Product {
     private String name;
     private String description;
     private BigDecimal price;
+    private Integer stockQuantity;
     private String image;
     @CreationTimestamp
     private LocalDateTime createdAt;
