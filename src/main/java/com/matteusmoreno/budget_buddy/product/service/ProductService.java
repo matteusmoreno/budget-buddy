@@ -1,5 +1,6 @@
 package com.matteusmoreno.budget_buddy.product.service;
 
+import com.matteusmoreno.budget_buddy.exception.ProductNotFoundException;
 import com.matteusmoreno.budget_buddy.product.entity.Product;
 import com.matteusmoreno.budget_buddy.product.ProductRepository;
 import com.matteusmoreno.budget_buddy.product.request.CreateProductRequest;
@@ -37,7 +38,7 @@ public class ProductService {
     }
 
     public Product getProductById(Long id) {
-        return productRepository.findById(id).orElseThrow();
+        return productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
     }
 
     public Page<ProductDetailsResponse> listAll(Pageable pageable) {
@@ -46,7 +47,7 @@ public class ProductService {
 
     @Transactional
     public Product updateProduct(UpdateProductRequest request) {
-        Product product = productRepository.findById(request.id()).orElseThrow();
+        Product product = productRepository.findById(request.id()).orElseThrow(ProductNotFoundException::new);
 
         if (request.name() != null) {
             product.setName(request.name());
@@ -68,7 +69,7 @@ public class ProductService {
 
     @Transactional
     public void disableProduct(Long id) {
-        Product product = productRepository.findById(id).orElseThrow();
+        Product product = productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
 
         product.setActive(false);
         product.setDeletedAt(LocalDateTime.now());
@@ -78,7 +79,7 @@ public class ProductService {
 
     @Transactional
     public Product enableProduct(Long id) {
-        Product product = productRepository.findById(id).orElseThrow();
+        Product product = productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
 
         product.setActive(true);
         product.setDeletedAt(null);
