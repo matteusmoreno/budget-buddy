@@ -48,17 +48,13 @@ public class CustomerService {
         return customer;
     }
 
-    public Customer getCustomerById(UUID id) {
-        Customer customer = customerRepository.findById(id).orElseThrow();
-        appUtils.verifyAuthenticatedUser(customer);
-
-        return customer;
+    public Customer getCustomerById() {
+        return appUtils.getAuthenticatedUser();
     }
 
     @Transactional
     public Customer updateCustomer(UpdateCustomerRequest request) {
-        Customer customer = customerRepository.findById(request.id()).orElseThrow();
-        appUtils.verifyAuthenticatedUser(customer);
+        Customer customer = appUtils.getAuthenticatedUser();
 
         if (request.username() != null) {
             customer.setUsername(request.username());
@@ -91,9 +87,8 @@ public class CustomerService {
     }
 
     @Transactional
-    public void disableCustomer(UUID id) {
-        Customer customer = customerRepository.findById(id).orElseThrow();
-        appUtils.verifyAuthenticatedUser(customer);
+    public void disableCustomer() {
+        Customer customer = appUtils.getAuthenticatedUser();
 
         customer.setActive(false);
         customer.setDeletedAt(LocalDateTime.now());
@@ -102,9 +97,8 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer enableCustomer(UUID id) {
-        Customer customer = customerRepository.findById(id).orElseThrow();
-        appUtils.verifyAuthenticatedUser(customer);
+    public Customer enableCustomer() {
+        Customer customer = appUtils.getAuthenticatedUser();
 
         customer.setActive(true);
         customer.setDeletedAt(null);

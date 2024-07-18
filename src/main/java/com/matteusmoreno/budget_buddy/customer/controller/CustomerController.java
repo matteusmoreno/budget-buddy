@@ -33,9 +33,9 @@ public class CustomerController {
         return ResponseEntity.created(uri).body(new CustomerDetailsResponse(customer));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CustomerDetailsResponse> getCustomerById(@PathVariable UUID id) {
-        Customer customer = customerService.getCustomerById(id);
+    @GetMapping
+    public ResponseEntity<CustomerDetailsResponse> getCustomerDetails() {
+        Customer customer = customerService.getCustomerById();
 
         return ResponseEntity.ok(new CustomerDetailsResponse(customer));
     }
@@ -47,16 +47,16 @@ public class CustomerController {
         return ResponseEntity.ok(new CustomerDetailsResponse(customer));
     }
 
-    @DeleteMapping("/disable/{id}")
-    public ResponseEntity<Void> disable(@PathVariable UUID id) {
-        customerService.disableCustomer(id);
+    @DeleteMapping("/disable")
+    public ResponseEntity<Void> disable() {
+        customerService.disableCustomer();
 
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/enable/{id}")
-    public ResponseEntity<CustomerDetailsResponse> enable(@PathVariable UUID id) {
-        Customer customer = customerService.enableCustomer(id);
+    @PatchMapping("/enable")
+    public ResponseEntity<CustomerDetailsResponse> enable() {
+        Customer customer = customerService.enableCustomer();
 
         return ResponseEntity.ok(new CustomerDetailsResponse(customer));
     }
