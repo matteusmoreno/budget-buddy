@@ -1,4 +1,4 @@
-package com.matteusmoreno.budget_buddy.card.cotroller;
+package com.matteusmoreno.budget_buddy.card.controller;
 
 import com.matteusmoreno.budget_buddy.card.entity.Card;
 import com.matteusmoreno.budget_buddy.card.request.CreateCardRequest;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.UUID;
+import java.util.List;
 
 @RestController
 @RequestMapping("/cards")
@@ -30,5 +30,12 @@ public class CardController {
         URI uri = uriBuilder.path("/cards/create/{id}").buildAndExpand(card.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new CardDetailsResponse(card));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CardDetailsResponse>> getCardById() {
+        List<Card> cards = cardService.getCardsByCustomer();
+
+        return ResponseEntity.ok(cards.stream().map(CardDetailsResponse::new).toList());
     }
 }

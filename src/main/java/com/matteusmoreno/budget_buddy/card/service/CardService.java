@@ -8,9 +8,12 @@ import com.matteusmoreno.budget_buddy.customer.entity.Customer;
 import com.matteusmoreno.budget_buddy.utils.AppUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -48,5 +51,10 @@ public class CardService {
         customerRepository.save(customer);
 
         return card;
+    }
+
+    public List<Card> getCardsByCustomer() {
+        Customer customer = appUtils.getAuthenticatedUser();
+        return customer.getCards();
     }
 }

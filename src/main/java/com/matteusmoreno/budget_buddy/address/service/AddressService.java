@@ -1,4 +1,4 @@
-package com.matteusmoreno.budget_buddy.address;
+package com.matteusmoreno.budget_buddy.address.service;
 
 import com.matteusmoreno.budget_buddy.address.entity.Address;
 import com.matteusmoreno.budget_buddy.address.repository.AddressRepository;
