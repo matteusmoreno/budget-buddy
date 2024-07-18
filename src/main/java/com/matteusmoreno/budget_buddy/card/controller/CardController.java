@@ -2,6 +2,7 @@ package com.matteusmoreno.budget_buddy.card.controller;
 
 import com.matteusmoreno.budget_buddy.card.entity.Card;
 import com.matteusmoreno.budget_buddy.card.request.CreateCardRequest;
+import com.matteusmoreno.budget_buddy.card.request.UpdateCardRequest;
 import com.matteusmoreno.budget_buddy.card.response.CardDetailsResponse;
 import com.matteusmoreno.budget_buddy.card.service.CardService;
 import jakarta.validation.Valid;
@@ -37,5 +38,12 @@ public class CardController {
         List<Card> cards = cardService.getCardsByCustomer();
 
         return ResponseEntity.ok(cards.stream().map(CardDetailsResponse::new).toList());
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<CardDetailsResponse> updateCard(@RequestBody @Valid UpdateCardRequest request) {
+        Card card = cardService.updateCard(request);
+
+        return ResponseEntity.ok(new CardDetailsResponse(card));
     }
 }

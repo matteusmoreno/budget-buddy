@@ -3,6 +3,7 @@ package com.matteusmoreno.budget_buddy.card.service;
 import com.matteusmoreno.budget_buddy.card.CardRepository;
 import com.matteusmoreno.budget_buddy.card.entity.Card;
 import com.matteusmoreno.budget_buddy.card.request.CreateCardRequest;
+import com.matteusmoreno.budget_buddy.card.request.UpdateCardRequest;
 import com.matteusmoreno.budget_buddy.customer.CustomerRepository;
 import com.matteusmoreno.budget_buddy.customer.entity.Customer;
 import com.matteusmoreno.budget_buddy.utils.AppUtils;
@@ -10,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,5 +58,34 @@ public class CardService {
     public List<Card> getCardsByCustomer() {
         Customer customer = appUtils.getAuthenticatedUser();
         return customer.getCards();
+    }
+
+    @Transactional
+    public Card updateCard(UpdateCardRequest request) {
+        Customer customer = appUtils.getAuthenticatedUser();
+        Card card = cardRepository.findById(request.id()).orElseThrow();
+
+        if (!customer.getCards().contains(card)) {
+            throw new BadCredentialsException("You don't have permission to update this card");
+        }
+        if (request.name() != null) {
+            card.setName(request.name().toUpperCase());
+        }
+        if (request.number() != null) {
+            card.setNumber(request.number());
+        }
+        if (request.cvv() != null) {
+            card.setCvv(request.cvv());
+        }
+        if (request.expirationDate() != null) {
+            card.setExpirationDate(request.expirationDate());
+        }
+        if (request.cardType() != null) {
+            card.setCardType(request.cardType());
+        }
+
+        cardRepository.save(card);
+
+        return card;
     }
 }
