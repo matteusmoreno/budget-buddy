@@ -37,6 +37,7 @@ public class CardService {
         if (cardRepository.existsByNumber(request.number())) {
             Card card = cardRepository.findByNumber(request.number());
             customer.getCards().add(card);
+            customerRepository.save(customer);
             return card;
         }
 

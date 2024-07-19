@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("App utils Unit Tests")
 class AppUtilsTest {
 
     @Mock
@@ -32,12 +33,10 @@ class AppUtilsTest {
     @Test
     @DisplayName("Should return the authenticated user")
     void getAuthenticatedUser() {
-        // Arrange
         String username = "testUser";
         Customer expectedCustomer = new Customer();
         expectedCustomer.setUsername(username);
 
-        // Simulate authentication
         Authentication authentication = mock(Authentication.class);
         when(authentication.getName()).thenReturn(username);
 
@@ -46,29 +45,22 @@ class AppUtilsTest {
 
         SecurityContextHolder.setContext(securityContext);
 
-        // Simulate repository behavior
         when(customerRepository.findByUsername(username)).thenReturn(expectedCustomer);
 
-        // Act
         Customer actualCustomer = appUtils.getAuthenticatedUser();
 
-        // Assert
         assertEquals(expectedCustomer, actualCustomer);
 
-        // Verify repository interaction
         verify(customerRepository, times(1)).findByUsername(username);
     }
 
     @Test
     @DisplayName("Should throw BadCredentialsException if customer does not have the card")
     void verifyCustomerHasCard_ShouldThrowException_WhenCustomerDoesNotHaveCard() {
-        // Arrange
         Customer customer = new Customer();
         Card card = new Card();
-        // Assume that the customer does not have the card
         customer.setCards(List.of());
 
-        // Act & Assert
         BadCredentialsException thrown = assertThrows(BadCredentialsException.class, () -> {
             verifyCustomerHasCard(customer, card);
         });
