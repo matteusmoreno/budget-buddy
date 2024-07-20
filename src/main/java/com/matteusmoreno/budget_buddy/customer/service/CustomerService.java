@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Service
 public class CustomerService {
@@ -48,7 +47,7 @@ public class CustomerService {
         return customer;
     }
 
-    public Customer getCustomerById() {
+    public Customer getCustomer() {
         return appUtils.getAuthenticatedUser();
     }
 

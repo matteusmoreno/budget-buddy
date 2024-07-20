@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/customers")
@@ -35,7 +34,7 @@ public class CustomerController {
 
     @GetMapping
     public ResponseEntity<CustomerDetailsResponse> getCustomerDetails() {
-        Customer customer = customerService.getCustomerById();
+        Customer customer = customerService.getCustomer();
 
         return ResponseEntity.ok(new CustomerDetailsResponse(customer));
     }
