@@ -8,6 +8,7 @@ CREATE TABLE customers (
     cpf VARCHAR(255) NOT NULL UNIQUE,
     address_id BIGINT,
     country VARCHAR(50) NOT NULL,
+    balance DECIMAL(10, 2),
     created_at TIMESTAMP,
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP,

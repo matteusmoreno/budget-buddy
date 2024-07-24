@@ -3,6 +3,7 @@ package com.matteusmoreno.budget_buddy.customer.response;
 import com.matteusmoreno.budget_buddy.address.entity.Address;
 import com.matteusmoreno.budget_buddy.customer.entity.Customer;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ public record CustomerDetailsResponse(
         String cpf,
         Address address,
         String country,
+        BigDecimal balance,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
         LocalDateTime deletedAt,
@@ -23,7 +25,7 @@ public record CustomerDetailsResponse(
 
     public CustomerDetailsResponse(Customer customer) {
         this(customer.getId() ,customer.getUsername(), customer.getPassword(), customer.getName(), customer.getEmail(), customer.getPhone(),
-                customer.getCpf(), customer.getAddress(), customer.getCountry().getDisplayName(), customer.getCreatedAt(), customer.getUpdatedAt(), customer.getDeletedAt(),
-                customer.getActive());
+                customer.getCpf(), customer.getAddress(), customer.getCountry().getDisplayName(), customer.getBalance(),customer.getCreatedAt(),
+                customer.getUpdatedAt(), customer.getDeletedAt(), customer.getActive());
     }
 }
