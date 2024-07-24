@@ -51,6 +51,4 @@ public class Customer {
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
     private Boolean active;
-
-
 }
