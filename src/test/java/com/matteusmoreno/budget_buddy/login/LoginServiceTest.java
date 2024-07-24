@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -47,7 +48,7 @@ class LoginServiceTest {
     private final Address address = new Address(1L, "city", "neighborhood", "state", "street", "zipcode");
 
     private final Customer customer = new Customer(UUID.randomUUID(), "matteusmoreno", "senha123", "Matteus Moreno",
-            "matteus@email.com", "(22)999999999", "999.999.999-99", address, Country.BRAZIL, null, null, null, null, true);
+            "matteus@email.com", "(22)999999999", "999.999.999-99", address, Country.BRAZIL, null, BigDecimal.ZERO, null, null, null, true);
 
     @Test
     @DisplayName("Should Login user Correctly")

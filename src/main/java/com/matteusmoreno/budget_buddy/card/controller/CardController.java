@@ -34,7 +34,7 @@ public class CardController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CardDetailsResponse>> getCardById() {
+    public ResponseEntity<List<CardDetailsResponse>> getCardByCustomer() {
         List<Card> cards = cardService.getCardsByCustomer();
 
         return ResponseEntity.ok(cards.stream().map(CardDetailsResponse::new).toList());

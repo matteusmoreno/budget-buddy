@@ -19,6 +19,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.BadCredentialsException;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ class CardServiceTest {
             CardType.DEBIT, LocalDateTime.of(2023, 1, 1, 0, 0, 0), null, null, true);
 
     private final Customer authenticatedCustomer = new Customer(UUID.randomUUID(), "username", "password", "Customer Name",
-            "email@email.com", "(99)999999999", "999.999.999-99", new Address(), Country.BRAZIL, new ArrayList<>(List.of(firstCard, secondCard)),LocalDateTime.of(2023, 1, 1, 0, 0, 0),
+            "email@email.com", "(99)999999999", "999.999.999-99", new Address(), Country.BRAZIL, new ArrayList<>(List.of(firstCard, secondCard)), BigDecimal.ZERO, LocalDateTime.of(2023, 1, 1, 0, 0, 0),
             null, null, true);
 
     private final CreateCardRequest createCardRequest = new CreateCardRequest("name", "9999999999999999",

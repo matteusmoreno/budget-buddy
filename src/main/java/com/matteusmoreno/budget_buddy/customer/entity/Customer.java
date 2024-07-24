@@ -37,7 +37,7 @@ public class Customer {
     @Enumerated(EnumType.STRING)
     private Country country;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "customer_cards",
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "card_id"))
