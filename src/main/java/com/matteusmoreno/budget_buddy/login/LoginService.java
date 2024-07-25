@@ -1,7 +1,6 @@
 package com.matteusmoreno.budget_buddy.login;
 
 import com.matteusmoreno.budget_buddy.customer.CustomerRepository;
-import com.matteusmoreno.budget_buddy.customer.constant.Role;
 import com.matteusmoreno.budget_buddy.customer.entity.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -34,11 +33,17 @@ public class LoginService {
     public String login(LoginRequest request) {
         Customer customer = customerRepository.findByUsername(request.username());
 
-        if (!customerRepository.existsByUsername(request.username()) || isLoginCorrect(request, passwordEncoder, customer)) {
+        if (!customerRepository.existsByUsername(request.username()) || verifyCorrectPassword(request, passwordEncoder, customer)) {
             throw new BadCredentialsException("User or Password is invalid!");
         }
 
-        JwtClaimsSet claims = JwtClaimsSet.builder()
+        JwtClaimsSet claims = serJtwClaims(customer);
+
+        return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
+    private static JwtClaimsSet serJtwClaims(Customer customer) {
+        return JwtClaimsSet.builder()
                 .issuer("BudgetBuddy")
                 .subject(customer.getUsername())
                 .issuedAt(Instant.now())
@@ -47,11 +52,9 @@ public class LoginService {
                 .claim("name", customer.getName())
                 .claim("scope", customer.getRole())
                 .build();
-
-        return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
-    private boolean isLoginCorrect(LoginRequest request, PasswordEncoder passwordEncoder, Customer customer) {
+    private boolean verifyCorrectPassword(LoginRequest request, PasswordEncoder passwordEncoder, Customer customer) {
         if (Objects.equals(customer.getUsername(), "admin")) return false;
         return !passwordEncoder.matches(request.password(), customer.getPassword());
     }
