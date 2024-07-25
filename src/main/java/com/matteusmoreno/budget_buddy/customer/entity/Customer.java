@@ -3,6 +3,7 @@ package com.matteusmoreno.budget_buddy.customer.entity;
 import com.matteusmoreno.budget_buddy.address.entity.Address;
 import com.matteusmoreno.budget_buddy.card.entity.Card;
 import com.matteusmoreno.budget_buddy.customer.constant.Country;
+import com.matteusmoreno.budget_buddy.customer.constant.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -44,6 +45,9 @@ public class Customer {
     private List<Card> cards = new ArrayList<>();
 
     private BigDecimal balance;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

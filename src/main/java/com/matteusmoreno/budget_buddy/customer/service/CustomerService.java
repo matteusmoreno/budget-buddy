@@ -3,6 +3,7 @@ package com.matteusmoreno.budget_buddy.customer.service;
 import com.matteusmoreno.budget_buddy.address.service.AddressService;
 import com.matteusmoreno.budget_buddy.address.entity.Address;
 import com.matteusmoreno.budget_buddy.customer.CustomerRepository;
+import com.matteusmoreno.budget_buddy.customer.constant.Role;
 import com.matteusmoreno.budget_buddy.customer.entity.Customer;
 import com.matteusmoreno.budget_buddy.customer.request.CreateCustomerRequest;
 import com.matteusmoreno.budget_buddy.customer.request.UpdateCustomerRequest;
@@ -38,6 +39,7 @@ public class CustomerService {
 
         Address address = addressService.setAddressAttributes(request.zipcode());
 
+        customer.setRole(Role.CUSTOMER);
         customer.setAddress(address);
         customer.setActive(true);
         customer.setPassword(passwordEncoder.encode(request.password()));

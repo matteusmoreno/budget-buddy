@@ -8,6 +8,7 @@ import com.matteusmoreno.budget_buddy.card.request.CreateCardRequest;
 import com.matteusmoreno.budget_buddy.card.request.UpdateCardRequest;
 import com.matteusmoreno.budget_buddy.customer.CustomerRepository;
 import com.matteusmoreno.budget_buddy.customer.constant.Country;
+import com.matteusmoreno.budget_buddy.customer.constant.Role;
 import com.matteusmoreno.budget_buddy.customer.entity.Customer;
 import com.matteusmoreno.budget_buddy.utils.AppUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -52,7 +53,7 @@ class CardServiceTest {
             CardType.DEBIT, LocalDateTime.of(2023, 1, 1, 0, 0, 0), null, null, true);
 
     private final Customer authenticatedCustomer = new Customer(UUID.randomUUID(), "username", "password", "Customer Name",
-            "email@email.com", "(99)999999999", "999.999.999-99", new Address(), Country.BRAZIL, new ArrayList<>(List.of(firstCard, secondCard)), BigDecimal.ZERO, LocalDateTime.of(2023, 1, 1, 0, 0, 0),
+            "email@email.com", "(99)999999999", "999.999.999-99", new Address(), Country.BRAZIL, new ArrayList<>(List.of(firstCard, secondCard)), BigDecimal.ZERO, Role.CUSTOMER, LocalDateTime.of(2023, 1, 1, 0, 0, 0),
             null, null, true);
 
     private final CreateCardRequest createCardRequest = new CreateCardRequest("name", "9999999999999999",

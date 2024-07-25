@@ -5,6 +5,7 @@ import com.matteusmoreno.budget_buddy.address.service.AddressService;
 import com.matteusmoreno.budget_buddy.card.request.UpdateCardRequest;
 import com.matteusmoreno.budget_buddy.customer.CustomerRepository;
 import com.matteusmoreno.budget_buddy.customer.constant.Country;
+import com.matteusmoreno.budget_buddy.customer.constant.Role;
 import com.matteusmoreno.budget_buddy.customer.entity.Customer;
 import com.matteusmoreno.budget_buddy.customer.request.CreateCustomerRequest;
 import com.matteusmoreno.budget_buddy.customer.request.UpdateCustomerRequest;
@@ -45,7 +46,7 @@ class CustomerServiceTest {
     private final Address address = new Address(1L, "city", "neighborhood", "state", "street", "zipcode");
 
     private final Customer customer = new Customer(UUID.randomUUID(), "matteusmoreno", "senha123", "Matteus Moreno",
-            "matteus@email.com", "(22)999999999", "999.999.999-99", address, Country.BRAZIL, null, BigDecimal.ZERO, null, null, null, true);
+            "matteus@email.com", "(22)999999999", "999.999.999-99", address, Country.BRAZIL, null, BigDecimal.ZERO, Role.CUSTOMER, null, null, null, true);
 
     @Test
     @DisplayName("Should create a new customer and save in database")

@@ -1,6 +1,7 @@
 package com.matteusmoreno.budget_buddy.login;
 
 import com.matteusmoreno.budget_buddy.customer.CustomerRepository;
+import com.matteusmoreno.budget_buddy.customer.constant.Role;
 import com.matteusmoreno.budget_buddy.customer.entity.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.Objects;
 
 @Service
 public class LoginService {
@@ -43,12 +45,14 @@ public class LoginService {
                 .expiresAt(Instant.now().plusSeconds(600L))
                 .claim("userId", customer.getId())
                 .claim("name", customer.getName())
+                .claim("scope", customer.getRole())
                 .build();
 
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
     private boolean isLoginCorrect(LoginRequest request, PasswordEncoder passwordEncoder, Customer customer) {
+        if (Objects.equals(customer.getUsername(), "admin")) return false;
         return !passwordEncoder.matches(request.password(), customer.getPassword());
     }
 

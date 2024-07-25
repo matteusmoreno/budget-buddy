@@ -18,14 +18,28 @@ public record CustomerDetailsResponse(
         Address address,
         String country,
         BigDecimal balance,
+        String role,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
         LocalDateTime deletedAt,
         Boolean active) {
 
     public CustomerDetailsResponse(Customer customer) {
-        this(customer.getId() ,customer.getUsername(), customer.getPassword(), customer.getName(), customer.getEmail(), customer.getPhone(),
-                customer.getCpf(), customer.getAddress(), customer.getCountry().getDisplayName(), customer.getBalance(),customer.getCreatedAt(),
-                customer.getUpdatedAt(), customer.getDeletedAt(), customer.getActive());
+        this(
+                customer.getId(),
+                customer.getUsername(),
+                customer.getPassword(),
+                customer.getName(),
+                customer.getEmail(),
+                customer.getPhone(),
+                customer.getCpf(),
+                customer.getAddress(),
+                customer.getCountry().getDisplayName(),
+                customer.getBalance(),
+                customer.getRole().getDisplayName(),
+                customer.getCreatedAt(),
+                customer.getUpdatedAt(),
+                customer.getDeletedAt(),
+                customer.getActive());
     }
 }

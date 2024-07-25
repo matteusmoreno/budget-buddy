@@ -3,6 +3,7 @@ package com.matteusmoreno.budget_buddy.login;
 import com.matteusmoreno.budget_buddy.address.entity.Address;
 import com.matteusmoreno.budget_buddy.customer.CustomerRepository;
 import com.matteusmoreno.budget_buddy.customer.constant.Country;
+import com.matteusmoreno.budget_buddy.customer.constant.Role;
 import com.matteusmoreno.budget_buddy.customer.entity.Customer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("Login Service Unit Tests")
 class LoginServiceTest {
 
     @Mock
@@ -48,7 +50,7 @@ class LoginServiceTest {
     private final Address address = new Address(1L, "city", "neighborhood", "state", "street", "zipcode");
 
     private final Customer customer = new Customer(UUID.randomUUID(), "matteusmoreno", "senha123", "Matteus Moreno",
-            "matteus@email.com", "(22)999999999", "999.999.999-99", address, Country.BRAZIL, null, BigDecimal.ZERO, null, null, null, true);
+            "matteus@email.com", "(22)999999999", "999.999.999-99", address, Country.BRAZIL, null, BigDecimal.ZERO, Role.CUSTOMER, null, null, null, true);
 
     @Test
     @DisplayName("Should Login user Correctly")

@@ -38,7 +38,7 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers("/customers/create").permitAll()
                         .requestMatchers("/login").permitAll()
-                        .requestMatchers("/products/**").permitAll()
+                        .requestMatchers("/products/**").hasAuthority("SCOPE_ADMIN")
                         .anyRequest().authenticated())
                 .csrf(AbstractHttpConfigurer::disable)
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
