@@ -30,6 +30,7 @@ public class ProductService {
         Product product = new Product();
         BeanUtils.copyProperties(request, product);
 
+        product.setName(request.name().toUpperCase());
         product.setActive(true);
 
         productRepository.save(product);
@@ -50,7 +51,7 @@ public class ProductService {
         Product product = productRepository.findById(request.id()).orElseThrow(ProductNotFoundException::new);
 
         if (request.name() != null) {
-            product.setName(request.name());
+            product.setName(request.name().toUpperCase());
         }
         if (request.description() != null) {
             product.setDescription(request.description());

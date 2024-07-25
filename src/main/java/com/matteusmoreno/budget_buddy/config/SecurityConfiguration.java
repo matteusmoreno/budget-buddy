@@ -7,6 +7,7 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -38,7 +39,12 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers("/customers/create").permitAll()
                         .requestMatchers("/login").permitAll()
-                        .requestMatchers("/products/**").hasAuthority("SCOPE_ADMIN")
+                        .requestMatchers("/products/create").hasAuthority("SCOPE_ADMIN")
+                        .requestMatchers("/products/update").hasAuthority("SCOPE_ADMIN")
+                        .requestMatchers("/products/disable/**").hasAuthority("SCOPE_ADMIN")
+                        .requestMatchers("/products/enable/**").hasAuthority("SCOPE_ADMIN")
+                        .requestMatchers("/products/list-all").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/products/").permitAll()
                         .anyRequest().authenticated())
                 .csrf(AbstractHttpConfigurer::disable)
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
